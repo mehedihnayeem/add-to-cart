@@ -12,7 +12,6 @@ const app = initializeApp(appSettings)
 const database = getDatabase(app)
 const auth = getAuth(app)
 const provider = new GoogleAuthProvider()
-const shoppingListInDB = ref(database, "shoppingList")
 
 const inputFieldEl = document.getElementById("input-field")
 const addButtonEl = document.getElementById("add-button")
@@ -24,7 +23,7 @@ const logOutBtn = document.getElementById("log-out-btn")
 
 addButtonEl.addEventListener("click", function() {
     const inputValue = inputFieldEl.value
-    const userShoppingListInDB = ref(database, `users/${auth.currentUser.uid}/shopping`)
+    const userShoppingListInDB = ref(database, `users/${auth.currentUser.uid}/shoppingList`)
 
     pushRef(userShoppingListInDB, inputValue)
     
@@ -45,34 +44,42 @@ logOutBtn.addEventListener("click", ()=>{
     signOut(auth)
 })
 
-onValue(shoppingListInDB, function(snapshot) {
-    
-    if(snapshot.exists()){
-    let itemsArray = Object.entries(snapshot.val())
-    
-    clearShoppingListEl()
-    
-    for (let i = 0; i < itemsArray.length; i++) {
-        let currentItem = itemsArray[i]
-        let currentItemID = currentItem[0]
-        let currentItemValue = currentItem[1]
-        
-        appendItemToShoppingListEl(currentItem)
-    }
-    } else{
-        shoppingListEl.textContent = 'No items here... yet'
-    }
-})
+
 
 onAuthStateChanged(auth, function(user){
     if(user){
         viewLoggedIn.style.display = "block"
         viewLoggedOut.style.display = "none"
+        fetchFromDB()
     }else{
         viewLoggedIn.style.display = "none"
         viewLoggedOut.style.display = "block"
     }
 })
+
+
+const fetchFromDB = () => {
+    const userShoppingListInDB = ref(database, `users/${auth.currentUser.uid}/shoppingList`)
+
+    onValue(userShoppingListInDB, function(snapshot) {
+    
+        if(snapshot.exists()){
+        let itemsArray = Object.entries(snapshot.val())
+        
+        clearShoppingListEl()
+        
+        for (let i = 0; i < itemsArray.length; i++) {
+            let currentItem = itemsArray[i]
+            let currentItemID = currentItem[0]
+            let currentItemValue = currentItem[1]
+            
+            appendItemToShoppingListEl(currentItem)
+        }
+        } else{
+            shoppingListEl.textContent = 'No items here... yet'
+        }
+    })
+}
 
 function clearShoppingListEl() {
     shoppingListEl.innerHTML = ""
