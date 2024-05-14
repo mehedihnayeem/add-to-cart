@@ -59,6 +59,9 @@ onAuthStateChanged(auth, function(user){
 
 
 const fetchFromDB = () => {
+    
+    clearShoppingListEl() 
+
     const userShoppingListInDB = ref(database, `users/${auth.currentUser.uid}/shoppingList`)
 
     onValue(userShoppingListInDB, function(snapshot) {
@@ -100,7 +103,7 @@ function appendItemToShoppingListEl(item) {
     shoppingListEl.append(newEL)
 
     newEL.addEventListener("click", ()=>{
-        let exactLocationOfItemInDB = ref(database, `shoppingList/${itemId}`)
+        let exactLocationOfItemInDB = ref(database, `users/${auth.currentUser.uid}/shoppingList`)
 
         remove(exactLocationOfItemInDB)
     })
