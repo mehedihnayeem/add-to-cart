@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"
-import { GoogleAuthProvider, getAuth, onAuthStateChanged, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js"
+import { GoogleAuthProvider, getAuth, onAuthStateChanged, signInWithPopup, signOut } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js"
 import { getDatabase, onValue, push as pushRef, ref, remove } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js"
 
 const appSettings = {
@@ -20,6 +20,7 @@ const shoppingListEl = document.getElementById("shopping-list")
 const viewLoggedIn = document.getElementById("view-logged-in")
 const viewLoggedOut = document.getElementById("view-logged-out")
 const continueWithGooglePopUpEL = document.getElementById("google-btn")
+const logOutBtn = document.getElementById("log-out-btn")
 
 addButtonEl.addEventListener("click", function() {
     let inputValue = inputFieldEl.value
@@ -37,6 +38,10 @@ continueWithGooglePopUpEL.addEventListener("click", ()=>{
         .then((error)=>{
             console.log(error.code)
         })
+})
+
+logOutBtn.addEventListener("click", ()=>{
+    signOut(auth)
 })
 
 onValue(shoppingListInDB, function(snapshot) {

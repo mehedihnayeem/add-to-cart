@@ -20,7 +20,16 @@ body {
 }
 
 #view-logged-out {
-  /* display: none; */
+  display: none;
+}
+
+h3 {
+  text-align: center;
+}
+
+h3:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 img {
