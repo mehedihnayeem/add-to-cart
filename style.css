@@ -15,6 +15,14 @@ body {
   margin: 30px auto;
 }
 
+#view-logged-in {
+  display: none;
+}
+
+#view-logged-out {
+  /* display: none; */
+}
+
 img {
   width: 150px;
   margin: 0 auto;
@@ -43,11 +51,10 @@ button {
   font-family: "Rubik", sans-serif;
   cursor: pointer;
 }
-/*
-ADD TO CART BUTTON
 
-ITEM BUTTONS
-*/
+#google-btn {
+  margin-top: 10px;
+}
 
 button:hover {
   background-color: #432000;
