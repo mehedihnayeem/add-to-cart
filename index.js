@@ -23,9 +23,10 @@ const continueWithGooglePopUpEL = document.getElementById("google-btn")
 const logOutBtn = document.getElementById("log-out-btn")
 
 addButtonEl.addEventListener("click", function() {
-    let inputValue = inputFieldEl.value
-    
-    pushRef(shoppingListInDB, inputValue)
+    const inputValue = inputFieldEl.value
+    const userShoppingListInDB = ref(database, `users/${auth.currentUser.uid}/shopping`)
+
+    pushRef(userShoppingListInDB, inputValue)
     
     clearInputFieldEl()
 })
